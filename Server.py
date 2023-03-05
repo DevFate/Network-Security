@@ -1,24 +1,25 @@
 import socket
 import sys
 import threading
+from helpers import send_str, get_input, decode_bytes
 
 # create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # bind the socket to a specific address and port
-server_address = ('192.168.137.108', 8000)
+server_address = ('172.20.10.11', 8000)
 sock.bind(server_address)
 
 # listen for incoming connections
 sock.listen(5)
 def send(conn, message):
-    conn.sendall(message.encode())
+    send_str(conn, message)
 
 def receive(conn):
     while True:
         data = conn.recv(1024)
         if data:
-            print("Received: {}".format(data.decode()))
+            get_input(sock,data)
 
 while True:
     # wait for a connection

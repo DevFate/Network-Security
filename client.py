@@ -1,26 +1,11 @@
 import socket
 import threading
-
+from helpers import send_str, get_input, decode_bytes
 
 Is_connected = False
-host_ip = input("Please type in the server IP address:\n").strip()
-while (host_ip != "localhost" and host_ip.count('.') != 3):
-    host_ip = input("Please type in a valid IP address:\n").strip()
+host_ip = 
+server_port = 
 
-server_port = -1
-
-try:
-    server_port = int(input("Please type in the port of the server:\n").strip())
-except ValueError:
-    while (True):
-        try:
-            server_port = int(input("Please type in a valid port:\n").strip())
-            if server_port > 0 and server_port < 65535:
-                break
-            else:
-                continue
-        except:
-            continue
 
 
 def function(host_ip,server_port,Is_conected = False):
@@ -43,8 +28,8 @@ def send(tcp_client, host_ip,server_port):
         while True:
             data = input("")
 
-            tcp_client.sendall(data.encode())
-            ("Bytes Sent:     {}".format(data))
+            
+            send_str(tcp_client,data)
            #
     except socket.error as error:
             print("Failed to send data to server.")
@@ -61,7 +46,7 @@ def recieve(tcp_client):
     msg = tcp_client.recv(1024)
     try:
         while msg:
-            print("Bytes Received: {}".format(msg.decode()))
+            get_input(tcp_client, msg)
             msg = tcp_client.recv(1024)
     except socket.error as error:
             print("Failed to send data to server.")

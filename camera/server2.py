@@ -1,45 +1,20 @@
-import socket
+from mlsocket import MLSocket
 import cv2
-import numpy as np
 
-# Define the host and port to listen on
-HOST = 'localhost'
+HOST = '172.20.10.11'
 PORT = 8000
 
-# Create a TCP socket and bind it to the host and port
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((HOST, PORT))
+with MLSocket() as s:
+    s.bind((HOST, PORT))
+    s.listen()
+    conn, address = s.accept()
 
-# Listen for incoming connections
-server_socket.listen()
+    with conn:
+        while True:
+            data = conn.recv(1024) # This will block until it receives all the data send by the client, with the step size of 1024 bytes.
+            cv2.imshow('Input', data)
 
-print(f"Server is listening on {HOST}:{PORT}")
-
-# Wait for a client to connect
-client_socket, client_address = server_socket.accept()
-
-print(f"Client connected from {client_address[0]}:{client_address[1]}")
-
-# Receive data from the client
-while True:
-    data = client_socket.recv(1024)
-    if not data:
-        print("STOPPING")
-        break
-    
-    frame = np.frombuffer(data, dtype=np.uint8)
-    frame = frame.reshape(100, 100, 3)
-
-    cv2.imshow('Input', frame)
-
-    c = cv2.waitKey(1)
-    if c == 27: # ESC
-        client_socket.close()
-        break
-
-
-# Close the client socket
-client_socket.close()
-
-# Close the server socket
-server_socket.close()
+            c = cv2.waitKey(1)
+            if c == 27: # ESC
+                s.close()
+                break
