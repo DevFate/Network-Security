@@ -12,7 +12,7 @@ def send_str(conn_socket: object, string: str) -> None:
     encrypted_string = encrypt(string, KEY1, KEY2, KEY3) # ENCRYPTS STRING BEFORE SENDING IT TO THE CLIENT
     conn_socket.sendall(encrypted_string.encode('utf-8'))
 
-def get_input(conn_socket: object, prompt: str, buffer_size : int = 1024) -> str:
+def get_input(conn_socket: object, prompt: str, buffer_size: int = 1024) -> str:
     send_str(conn_socket, prompt)
     input_ = conn_socket.recv(buffer_size)
     input_ = decode_bytes(input_)

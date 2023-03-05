@@ -6,7 +6,7 @@ import threading
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # bind the socket to a specific address and port
-server_address = ('10.196.29.20', 8000)
+server_address = ('192.168.137.108', 8000)
 sock.bind(server_address)
 
 # listen for incoming connections
