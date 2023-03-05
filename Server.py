@@ -10,7 +10,7 @@ server_address = ('192.168.137.108', 8000)
 sock.bind(server_address)
 
 # listen for incoming connections
-sock.listen(1)
+sock.listen(5)
 def send(conn, message):
     conn.sendall(message.encode())
 
@@ -37,6 +37,9 @@ while True:
             if not message:
                 break
             send(connection, message)
+        
+    except Exception as e:
+            print(e)
 
     finally:
         # clean up the connection
