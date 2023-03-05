@@ -24,5 +24,6 @@ def get_input(conn_socket: object, prompt: str, buffer_size: int = 1024) -> str:
     else: # CHECKSUM IS VALID
         return decrypted_message
 
+
 def decode_bytes(bytes_: bytes) -> str:
     return bytes_.decode('utf-8').replace('\n', '')
